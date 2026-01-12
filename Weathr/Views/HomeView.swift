@@ -14,28 +14,30 @@ struct HomeView: View {
     @State private var isPresentingAddCity = false
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(vm.cities, id: \.location.name) { city in
-                    NavigationLink {
-                        CityDetailView(city: city)
-                    } label: {
-                        CityRowView(city: city)
+            Group {
+                if vm.cities.isEmpty {
+                    EmptyStateView(
+                        title: "No cities yet",
+                        message: "Add a city to start tracking the weather.",
+                        actionTitle: "Add City",
+                        onAction: { isPresentingAddCity = true }
+                    )
+                } else {
+                    List {
+                        ForEach(vm.cities, id: \.location.name) { city in
+                            NavigationLink {
+                                CityDetailView(city: city)
+                            } label: {
+                                CityRowView(city: city)
+                            }
+                        }
+                        .onDelete { offsets in
+                            vm.deleteCity(at: offsets)
+                        }
                     }
-                }
-                .onDelete { offsets in
-                    vm.deleteCity(at: offsets)
                 }
             }
             .navigationTitle("Weathr")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        isPresentingAddCity = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
             .refreshable {
                 await vm.loadCities(using: modelContext)
             }
