@@ -36,6 +36,9 @@ struct ContentView: View {
             }
         } detail: {
             Text("Select an item")
+        }.onAppear {
+            print(APIConfig.shared.apiKey)
+            print(APIConfig.shared.weatherApiUrl)
         }
     }
 
