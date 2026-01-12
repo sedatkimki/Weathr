@@ -14,19 +14,19 @@
 import Foundation
 
 // MARK: - ForecastResponse
-struct ForecastResponse: Codable {
+struct ForecastResponse: Codable, Equatable {
     let location: Location
     let current: Current
     let forecast: Forecast
 }
 
 // MARK: - Forecast
-struct Forecast: Codable {
+struct Forecast: Codable, Equatable {
     let forecastday: [Forecastday]
 }
 
 // MARK: - Forecastday
-struct Forecastday: Codable {
+struct Forecastday: Codable, Equatable {
     let date: String
     let dateEpoch: Int
     let day: Day
@@ -39,7 +39,7 @@ struct Forecastday: Codable {
 }
 
 // MARK: - Day
-struct Day: Codable {
+struct Day: Codable, Equatable {
     let maxtempC, mintempC, avgtempC, maxwindKph: Double
     let avgvisKM: Double
     let avghumidity, dailyWillItRain, dailyChanceOfRain: Int

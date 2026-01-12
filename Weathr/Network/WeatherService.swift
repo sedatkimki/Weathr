@@ -13,6 +13,7 @@ final class WeatherService {
 
     private let config: APIConfig
     private let session: Session
+    private let decoder = JSONDecoder()
 
     init(config: APIConfig = .shared, session: Session = .default) {
         self.config = config
@@ -47,9 +48,12 @@ final class WeatherService {
             url,
             parameters: parameters,
             encoding: URLEncoding.default,
-            requestModifier: { $0.cachePolicy = .reloadIgnoringLocalCacheData }
+            requestModifier: {
+                $0.cachePolicy = .reloadIgnoringLocalCacheData
+                $0.timeoutInterval = 8
+            }
         )
-            .serializingDecodable(T.self)
+            .serializingData()
             .response
 
         if let statusCode = response.response?.statusCode, !(200...299).contains(statusCode) {
@@ -58,9 +62,18 @@ final class WeatherService {
         }
 
         switch response.result {
-        case .success(let value):
-            print("WeatherService.response success = \(value)")
-            return value
+        case .success(let data):
+            do {
+                let value = try decode(T.self, from: data)
+                print("WeatherService.response success")
+                return value
+            } catch {
+                print("WeatherService.response failure error=\(error)")
+                if let serviceError = error as? WeatherServiceError {
+                    throw serviceError
+                }
+                throw WeatherServiceError.decoding(underlying: error)
+            }
         case .failure(let error):
             print("WeatherService.response failure error=\(error)")
             throw map(error)
@@ -94,6 +107,43 @@ final class WeatherService {
         }
 
         return .network(underlying: error)
+    }
+
+    private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            if let sanitized = try? sanitizeCurrentPayload(data) {
+                return try decoder.decode(T.self, from: sanitized)
+            }
+            throw WeatherServiceError.decoding(underlying: error)
+        }
+    }
+
+    private func sanitizeCurrentPayload(_ data: Data) throws -> Data {
+        guard var root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              var current = root["current"] as? [String: Any] else {
+            return data
+        }
+
+        current = sanitizeCurrentValues(current)
+        root["current"] = current
+        return try JSONSerialization.data(withJSONObject: root)
+    }
+
+    private func sanitizeCurrentValues(_ current: [String: Any]) -> [String: Any] {
+        var result = current
+        let keysToCoerce = Set(["uv", "vis_km"])
+
+        for key in keysToCoerce {
+            guard let number = result[key] as? NSNumber else { continue }
+            let doubleValue = number.doubleValue
+            if doubleValue.rounded() != doubleValue {
+                result[key] = Int(doubleValue.rounded())
+            }
+        }
+
+        return result
     }
 }
 

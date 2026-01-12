@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Observable
 final class HomeViewModel {
@@ -15,7 +16,7 @@ final class HomeViewModel {
     // MARK: - State
     private(set) var state: ViewState<[WeatherResponse]> = .idle
     private let weatherService = WeatherService.shared
-    private let cityQueries = ["Istanbul", "Ankara"]
+    private var cityQueries = ["Istanbul", "Ankara"]
     private(set) var usedCacheOnLastLoad: Bool = false
 
     // MARK: - Derived values (View convenience)
@@ -69,6 +70,32 @@ final class HomeViewModel {
 
         usedCacheOnLastLoad = usedCache
         return results
+    }
+
+    @MainActor
+    func addCity(_ name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        if !cityQueries.contains(trimmed) {
+            cityQueries.append(trimmed)
+        }
+    }
+
+    @MainActor
+    func deleteCity(at offsets: IndexSet) {
+        let currentCities = cities
+        let namesToRemove = offsets.compactMap { index in
+            currentCities.indices.contains(index) ? currentCities[index].location.name : nil
+        }
+
+        if !namesToRemove.isEmpty {
+            cityQueries.removeAll { namesToRemove.contains($0) }
+        }
+
+        if var value = state.value {
+            value.remove(atOffsets: offsets)
+            state = .content(value)
+        }
     }
 
     @MainActor
