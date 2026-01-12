@@ -1,6 +1,6 @@
 {
     "weatherApiUrl": "https://api.weatherapi.com/v1",
-    "apiKey": "eced40909e2647c38c272203261201",
+    "apiKey": "your api key",
     "currentEndpoint": "current.json",
     "forecastEndpoint": "forecast.json",
     "searchEndpoint": "search.json"
