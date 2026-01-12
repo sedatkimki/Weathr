@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AFB9398C2F14EC6000C8AC5A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AFB9398B2F14EC6000C8AC5A /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AFB938D72F14D9CC00C8AC5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -42,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFB9398C2F14EC6000C8AC5A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +105,7 @@
 			);
 			name = Weathr;
 			packageProductDependencies = (
+				AFB9398B2F14EC6000C8AC5A /* Alamofire */,
 			);
 			productName = Weathr;
 			productReference = AFB938C72F14D9CB00C8AC5A /* Weathr.app */;
@@ -178,6 +184,7 @@
 			mainGroup = AFB938BE2F14D9CB00C8AC5A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				AFB9398A2F14EC6000C8AC5A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AFB938C82F14D9CB00C8AC5A /* Products */;
@@ -554,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AFB9398A2F14EC6000C8AC5A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AFB9398B2F14EC6000C8AC5A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AFB9398A2F14EC6000C8AC5A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AFB938BF2F14D9CB00C8AC5A /* Project object */;
 }

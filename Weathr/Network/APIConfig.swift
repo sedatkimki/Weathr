@@ -10,6 +10,8 @@ import Foundation
 struct APIConfig: Decodable {
     let weatherApiUrl: String
     let apiKey: String
+    let currentEndpoint: String
+    let forecastEndpoint: String
     
     static let shared: APIConfig = {
         guard let url = Bundle.main.url(forResource: "APIConfig", withExtension: "json") else {

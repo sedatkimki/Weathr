@@ -6,11 +6,24 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var vm = HomeViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 12) {
+            Text("Cities: \(vm.cities.count)")
+            Text(vm.usedCacheOnLastLoad ? "Cache: used" : "Cache: not used")
+            Button("Reload") {
+                Task {
+                    await vm.loadCities(using: modelContext)
+                }
+            }
+        }
+        .task {
+            await vm.loadCities(using: modelContext)
+        }
     }
 }
 

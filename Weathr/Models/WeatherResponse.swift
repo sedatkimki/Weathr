@@ -28,7 +28,7 @@ struct Current: Codable, Equatable {
     let windDir: String
     let humidity, cloud: Int
     let feelslikeC: Double
-    let visKM, uv: Int
+    let visKM, uv: Double
 
     enum CodingKeys: String, CodingKey {
         case lastUpdated = "last_updated"
