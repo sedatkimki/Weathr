@@ -13,6 +13,7 @@ struct WeathrApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             WeatherCache.self,
+            CityRecord.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

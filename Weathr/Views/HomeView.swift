@@ -15,16 +15,14 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if vm.cities.isEmpty {
+                if vm.displayCities.isEmpty {
                     EmptyStateView(
                         title: "No cities yet",
                         message: "Add a city to start tracking the weather.",
-                        actionTitle: "Add City",
-                        onAction: { isPresentingAddCity = true }
                     )
                 } else {
                     List {
-                        ForEach(vm.cities, id: \.location.name) { city in
+                        ForEach(vm.displayCities, id: \.location.name) { city in
                             NavigationLink {
                                 CityDetailView(city: city)
                             } label: {
@@ -32,12 +30,22 @@ struct HomeView: View {
                             }
                         }
                         .onDelete { offsets in
-                            vm.deleteCity(at: offsets)
+                            vm.deleteCity(at: offsets, using: modelContext)
                         }
                     }
                 }
             }
             .navigationTitle("Weathr")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isPresentingAddCity = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Add city")
+                }
+            }
             .refreshable {
                 await vm.loadCities(using: modelContext)
             }
@@ -57,7 +65,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $isPresentingAddCity) {
                 AddCityView { city in
-                    vm.addCity(city)
+                    vm.addCity(city, using: modelContext)
                     Task {
                         await vm.loadCities(using: modelContext)
                     }

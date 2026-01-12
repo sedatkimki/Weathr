@@ -13,6 +13,7 @@ struct SplashView: View {
     var body: some View {
         if isActive {
             HomeView()
+                .transition(.opacity)
         } else {
             ZStack {
                 LinearGradient(
@@ -29,11 +30,16 @@ struct SplashView: View {
                     Text("Weathr")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundStyle(.white)
+                    Text("Your weather, at a glance")
+                        .font(.subheadline)
+                        .foregroundStyle(.white.opacity(0.85))
                 }
             }
             .task {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
-                isActive = true
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    isActive = true
+                }
             }
         }
     }

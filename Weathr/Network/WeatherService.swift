@@ -38,6 +38,15 @@ final class WeatherService {
         return response
     }
 
+    func fetchSearch(query: String) async throws -> [CitySearchResult] {
+        print("WeatherService.fetchSearch query=\(query)")
+        let response: [CitySearchResult] = try await request(
+            endpoint: config.searchEndpoint,
+            query: ["q": query]
+        )
+        return response
+    }
+
     private func request<T: Decodable>(endpoint: String, query: [String: String]) async throws -> T {
         let url = try makeURL(endpoint: endpoint)
         var parameters = query
@@ -76,6 +85,9 @@ final class WeatherService {
             }
         case .failure(let error):
             print("WeatherService.response failure error=\(error)")
+            if error.isExplicitlyCancelledError {
+                throw CancellationError()
+            }
             throw map(error)
         }
     }

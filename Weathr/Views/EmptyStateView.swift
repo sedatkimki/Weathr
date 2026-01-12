@@ -10,8 +10,6 @@ import SwiftUI
 struct EmptyStateView: View {
     let title: String
     let message: String
-    let actionTitle: String
-    let onAction: () -> Void
 
     var body: some View {
         VStack(spacing: 12) {
@@ -20,13 +18,10 @@ struct EmptyStateView: View {
                 .foregroundStyle(.secondary)
             Text(title)
                 .font(.headline)
+                .foregroundStyle(.white)
             Text(message)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            Button(actionTitle) {
-                onAction()
-            }
-            .buttonStyle(.borderedProminent)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
@@ -36,8 +31,6 @@ struct EmptyStateView: View {
 #Preview {
     EmptyStateView(
         title: "No cities yet",
-        message: "Add a city to start tracking the weather.",
-        actionTitle: "Add City",
-        onAction: {}
+        message: "Add a city to start tracking the weather."
     )
 }

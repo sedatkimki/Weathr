@@ -12,6 +12,7 @@ struct APIConfig: Decodable {
     let apiKey: String
     let currentEndpoint: String
     let forecastEndpoint: String
+    let searchEndpoint: String
     
     static let shared: APIConfig = {
         guard let url = Bundle.main.url(forResource: "APIConfig", withExtension: "json") else {
