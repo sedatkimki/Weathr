@@ -35,16 +35,6 @@
 			path = Weathr;
 			sourceTree = "<group>";
 		};
-		AFB938D92F14D9CC00C8AC5A /* WeathrTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = WeathrTests;
-			sourceTree = "<group>";
-		};
-		AFB938E32F14D9CC00C8AC5A /* WeathrUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = WeathrUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB938C92F14D9CB00C8AC5A /* Weathr */,
-				AFB938D92F14D9CC00C8AC5A /* WeathrTests */,
-				AFB938E32F14D9CC00C8AC5A /* WeathrUITests */,
 				AFB938C82F14D9CB00C8AC5A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				AFB938D82F14D9CC00C8AC5A /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				AFB938D92F14D9CC00C8AC5A /* WeathrTests */,
-			);
 			name = WeathrTests;
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				AFB938E22F14D9CC00C8AC5A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				AFB938E32F14D9CC00C8AC5A /* WeathrUITests */,
 			);
 			name = WeathrUITests;
 			packageProductDependencies = (
